@@ -12,8 +12,6 @@
 #define PORT2_BI1 36
 #define PORT2_BI2 37
 
-#define A12 66
-
 #define trigger A12
 #define echo A12
 
@@ -25,7 +23,7 @@
 #define Ki 0.05
 #define Tech 0.1
 
-#define Usat 4
+#define Usat 9
 
 float lastError=0;
 float lastU=0;
@@ -36,13 +34,15 @@ unsigned long lastTick = 0;
 void setup() {
   // put your setup code here, to run once:
   InitMotors();
-  Serial.begin(9600); 
+  delay(3);
+  Serial.begin(9600);
+  turn(1080, -1);
 }
 
 void loop() {
   //tickHorloge();
-  //turn(90., 1.);
-  delay(1);
+    
+    delay(10);
 }
 
 void tickHorloge(){
@@ -124,7 +124,7 @@ void updatePID(float command){ //command en mm
   Serial.println((String)(newError) + " mm  ___ "+(String)(newU) + " V");
   
   setMotor1ByTension(newU);
-  setMotor2ByTension(newU);
+  setMotor2ByTension(-newU);
   
   lastError=newError;
   lastU=newU;
