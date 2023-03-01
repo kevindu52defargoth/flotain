@@ -12,6 +12,8 @@
 #define PORT2_BI1 36
 #define PORT2_BI2 37
 
+#define A12 66
+
 #define trigger A12
 #define echo A12
 
@@ -34,11 +36,13 @@ unsigned long lastTick = 0;
 void setup() {
   // put your setup code here, to run once:
   InitMotors();
-  Serial.begin(9600);
+  Serial.begin(9600); 
 }
 
 void loop() {
-  tickHorloge();
+  //tickHorloge();
+  //turn(90., 1.);
+  delay(1);
 }
 
 void tickHorloge(){
@@ -157,4 +161,3 @@ void test_capteur(){
   //Serial.println((String)(endTime-startTime) + " µs");
   delay(1000);
 }
-
