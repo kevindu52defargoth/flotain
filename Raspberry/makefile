@@ -11,6 +11,9 @@ all: main
 main: $(OBJS)
 	$(CC) $(OBJS:%=bin/%) -o $@ $(LDFLAGS)
 
+tgz: main
+	@echo "creation de l'archive"
+	tar czvf flotain.tar.gz main
 
 %.o: src/%.c include/%.h
 	$(CC) $(CFLAGS) -c src/$< -o bin/$@
