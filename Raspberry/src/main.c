@@ -1,6 +1,8 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include <driver_robot.h>
+#include <commons.h>
+#include <main.h>
 
 enum STATE {
   WAINTING_ZONE,
@@ -12,6 +14,7 @@ enum STATE {
   UNLOADING,
 };
 
+int state;
 int main(int argc, char **argv){
 
 }
