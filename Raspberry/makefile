@@ -2,6 +2,7 @@ CC = gcc
 CFLAGS  = -Wall
 CFLAGS += -std=c99
 CFLAGS += -lpthread
+CFLAGS += -I include
 LDFLAGS =
 
 OBJS = main.o driver_robot.o
