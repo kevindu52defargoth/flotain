@@ -1,5 +1,6 @@
 #include "stdlib.h"
 #include "stdio.h"
+#include "pthread.h"
 #include <driver_robot.h>
 #include <commons.h>
 #include <main.h>
@@ -15,6 +16,8 @@ enum STATE {
 };
 
 int state;
+pthread_mutex_t screen;
 int main(int argc, char **argv){
-
+  pthread_mutex_unlock(&screen);
+  PRINT("hello world");
 }
