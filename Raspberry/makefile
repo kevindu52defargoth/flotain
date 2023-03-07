@@ -15,8 +15,8 @@ tgz: main
 	@echo "creation de l'archive"
 	tar czvf flotain.tar.gz main
 
-%.o: src/%.c include/%.h
-	$(CC) $(CFLAGS) -c src/$< -o bin/$@
+%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o bin/$@
 
 
 .PHONY: clean touchAll pretty
