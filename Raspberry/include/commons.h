@@ -12,3 +12,9 @@
   pthread_mutex_lock(&screen);  \
   printf("%s\n", msg);  \
   pthread_mutex_unlock(&screen);
+
+#ifdef _DEBUG_
+#define DEBUG(msg) PRINT(msg)
+#else
+#define DEBUG(msg)
+#endif
