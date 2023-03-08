@@ -28,21 +28,99 @@
 float lastError=0;
 float lastU=0;
 
+
+
 unsigned long lastTick = 0;
 #define PERIODE 100 //en millisecondes
+
+char command[3];
+
 
 void setup() {
   // put your setup code here, to run once:
   InitMotors();
   delay(3);
   Serial.begin(9600);
-  turn(1080, -1);
+  // turn(1080, -1);
 }
 
 void loop() {
   //tickHorloge();
-    
-    delay(10);
+  if (Serial.available() > 0 ){
+   // String data = Serial.readStringUntil('\n');
+
+   int data = Serial.read();
+   Serial.print("You sent me: ");
+   Serial.println(data);
+   setCommand(data);
+  }
+  
+
+  
+
+  delay(1000);
+}
+
+
+// void addMessage(str data){
+//   String data = Serial.readStringUntil('\n');
+//   Serial.print("You sent me: ");
+//   Serial.println(data);
+
+// }
+
+void setCommand(int data){
+  
+  // msg_acept = true;
+  Serial.println(data);
+  
+  switch(data){
+    case 0:
+      Serial.println("Derriere");
+      break;
+    case 1:     // turn left function 
+      Serial.println("Turn");
+      turn(1080,-1);
+      break;
+    case 2:     // add the forward function
+      Serial.println("Forward");
+      break;
+    case 3:     // add the turn right function
+      Serial.println("Droite");
+      break;
+    case 4:     // to send data to the pi; in this case, we're sending the information from the ultrasonic sensor
+      send_distance();
+
+    case 6 ... 255:     // turn + angle 
+      int angle, sign;
+      if (data > 126){
+        
+        angle = treat_angle(data);
+        sign = -1;
+      }
+      else 
+        angle = data;
+        sign = 1;
+      // turn(angle);
+
+      Serial.println("turn + angle");
+      
+      break;
+    default:
+      Serial.println("Rien");
+      break;
+  }
+
+}
+
+int treat_angle(int angle){
+ 
+  angle -= 180;
+  return angle; 
+}
+void send_distance(){
+  char myString[10];
+  Serial.println(dtostrf(distance_capteur(), 6, 2, myString));
 }
 
 void tickHorloge(){
