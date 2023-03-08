@@ -6,13 +6,15 @@
 #include <main.h>
 
 enum STATE {
-  WAINTING_ZONE,
   AWAITING_ORDER,
   ON_THE_ROAD,
   WAITING_FOR_INTERSECTION,
+  WAITING_OBSTACLE,
   IN_ALLEY,
   PICKING_UP,
   UNLOADING,
+  LOST,
+
 };
 
 int state;
