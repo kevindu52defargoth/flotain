@@ -4,6 +4,7 @@
 #include <driver_robot.h>
 #include <commons.h>
 #include <main.h>
+#include <carte.h>
 
 enum STATE {
   WAINTING_ZONE,
