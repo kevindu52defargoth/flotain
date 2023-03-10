@@ -1,6 +1,7 @@
 /* Pour contenir les données sur la carte que doivent parcourir les robots */
 
 #include "stdlib.h"
+#ifndef INCLUDE_CARTE
 #define L_CASE 23.6  /* coté d'une case en cm */
 #define NBRE_CASE_I 9  /* nombre de lignes sur la carte */
 #define NBRE_CASE_J 9  /* nombre de colonnes sur la carte */
@@ -9,7 +10,7 @@
 struct coordones{
   int i;
   int g;
-} 
+};
 
 typedef enum direction{
   N, S, E, W
@@ -56,4 +57,7 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
 
 cell_t coordones();
 
-struct coordones next_case(struct coordones, direction desire );
+struct coordones next_case(struct coordones, direction_t desire );
+
+#define INCLUDE_CARTE
+#endif
