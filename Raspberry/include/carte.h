@@ -6,6 +6,11 @@
 #define NBRE_CASE_J 9  /* nombre de colonnes sur la carte */
 #define NBRE_CASE (NBRE_CASE_I*NBRE_CASE_J)
 
+struct coordones{
+  int i;
+  int g;
+} 
+
 typedef enum direction{
   N, S, E, W
 } direction_t;
@@ -33,7 +38,7 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] ;
 
 #define ALLEE_i(i) &(cell_t){.inter={N, E, i}}
 #define DEPOT_i(i) &(cell_t){.inter={S, W, i+5}}
-#define ALLEE &(cell_t){.inter={N, E, 0}}
+#define ALLEE &(cell_t){.inter={W, E, 0}}
 #define ROUTE(d) &(cell_t){.road={d}}
 
 cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
@@ -47,3 +52,8 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
   {ROUTE(S), ROUTE(W), NULL, NULL, ALLEE_i(4), ALLEE, ALLEE, ALLEE, ALLEE,},
   {ROUTE(E), ROUTE(E), ROUTE(E), ROUTE(E),ROUTE(N), NULL, NULL, NULL, NULL},
 };
+
+
+cell_t coordones();
+
+struct coordones next_case(struct coordones, direction desire );
