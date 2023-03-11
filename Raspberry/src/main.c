@@ -85,6 +85,7 @@ int navigation(struct coordones c, int * sorties, int nbreDirections){
         next_c = next_case(c, cellule->inter.d1);
       else
         next_c = next_case(c, cellule->inter.d2);
+      index++;
       avancer_case(next_c);  // on déplace le robot ASKIP
       c = next_c;
       cellule = carte[c.i][c.g];
