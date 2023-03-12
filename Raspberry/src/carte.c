@@ -28,15 +28,15 @@ struct coordones next_case(struct coordones c, direction_t desire) {
 #define ROUTE(d) &(cell_t){.road={d}, .type=2}
 
 cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
-    {NULL, NULL, ROUTE(S), ROUTE(W), ROUTE(W), NULL, NULL, NULL, NULL},
-    {ALLEE, ALLEE, DEPOT_i(1), NULL, ALLEE_i(1), ALLEE, ALLEE, ALLEE, ALLEE,},
-    {NULL, NULL, ROUTE(S), NULL, ROUTE(N), NULL, NULL, NULL, NULL},
-    {ALLEE, ALLEE, DEPOT_i(2), NULL, ALLEE_i(2), ALLEE, ALLEE, ALLEE, ALLEE,},
-    {NULL, NULL, ROUTE(S), NULL, ROUTE(N), NULL, NULL, NULL, NULL},
-    {ROUTE(S), ROUTE(W), ROUTE(W), NULL, ALLEE_i(3), ALLEE, ALLEE, ALLEE, ALLEE,},
-    {ROUTE(E), ROUTE(S), NULL, NULL, ROUTE(N), NULL, NULL, NULL, NULL},
-    {ROUTE(S), ROUTE(W), NULL, NULL, ALLEE_i(4), ALLEE, ALLEE, ALLEE, ALLEE,},
-    {ROUTE(E), ROUTE(E), ROUTE(E), ROUTE(E),ROUTE(N), NULL, NULL, NULL, NULL},
+    {NULL,     NULL,     ROUTE(S),   ROUTE(W), ROUTE(W),   NULL,  NULL,  NULL,  NULL},
+    {ALLEE,    ALLEE,    DEPOT_i(1), NULL,     ALLEE_i(1), ALLEE, ALLEE, ALLEE, ALLEE,},
+    {NULL,     NULL,     ROUTE(S),   NULL,     ROUTE(N),   NULL,  NULL,  NULL,  NULL},
+    {ALLEE,    ALLEE,    DEPOT_i(2), NULL,     ALLEE_i(2), ALLEE, ALLEE, ALLEE, ALLEE,},
+    {NULL,     NULL,     ROUTE(S),   NULL,     ROUTE(N),   NULL,  NULL,  NULL,  NULL},
+    {ROUTE(S), ROUTE(W), ROUTE(W),   NULL,     ALLEE_i(3), ALLEE, ALLEE, ALLEE, ALLEE,},
+    {ROUTE(E), ROUTE(S), NULL,       NULL,     ROUTE(N),   NULL,  NULL,  NULL,  NULL},
+    {ROUTE(S), ROUTE(W), NULL,       NULL,     ALLEE_i(4), ALLEE, ALLEE, ALLEE, ALLEE,},
+    {ROUTE(E), ROUTE(E), ROUTE(E),   ROUTE(E), ROUTE(N),   NULL,  NULL,  NULL,  NULL},
 };
 
 struct coordones coord_repos = {8, 0};

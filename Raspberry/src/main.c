@@ -32,6 +32,7 @@ int main(int argc, char **argv){
   int * chemin1, * chemin2, * chemin3;
   int lenChemin1, lenChemin2, lenChemin3;
 
+  /* variables temporaires pour le test */
   struct coordones objet = {5, 7};
   struct coordones depot = {1, 1};
 
@@ -82,15 +83,8 @@ int main(int argc, char **argv){
 }
 
 int construire_chemin_to_objet(int numeroAlle, int numeroObjet, int *chemin, int * lenChemin){
-  if (numeroAlle < 0 || numeroAlle > NBRE_ALLEE){
-    fprintf(stderr, "numero allée incohérent\n");
-    return 1;
-  }
-
-  if (numeroObjet < 0 || numeroObjet > NBRE_OBJ){
-    fprintf(stderr, "numero objet incohérent\n");
-    return 2;
-  }
+  CHECK_NBRE_ALLEE;
+  CHECK_NBRE_OBJ;
 
   int i = 0;
   for (int j = 0; j < numeroAlle; j++){
@@ -104,25 +98,21 @@ int construire_chemin_to_objet(int numeroAlle, int numeroObjet, int *chemin, int
   i += numeroObjet;
 
   *lenChemin = i;
+#ifdef _DEBUG_
+  printf("chemin from to object: ");
+  for (int j = 0; j < i; j++) {
+    printf("%d\t", chemin[j]);
+  }
+  printf("\nlenChemin : %d\n", i);
+#endif
 
   return 0;
 }
 
 int construire_chemin_from_object_to_depot(int numeroDepot, int numeroAlle, int numeroObjet, int *chemin, int * lenChemin){
-  if (numeroAlle < 0 || numeroAlle > NBRE_ALLEE){
-    fprintf(stderr, "numero allée incohérent\n");
-    return 1;
-  }
-
-  if (numeroObjet < 0 || numeroObjet > NBRE_OBJ){
-    fprintf(stderr, "numero objet incohérent\n");
-    return 2;
-  }
-
-  if (numeroDepot < 0 || numeroDepot > NBRE_DEPOT){
-    fprintf(stderr, "numero dépot incohérent\n");
-    return 3;
-  }
+  CHECK_NBRE_ALLEE;
+  CHECK_NBRE_OBJ;
+  CHECK_NBRE_DEPOT;
 
   int i = 0;
   for(int j = 0; j< numeroObjet; j++)
@@ -140,15 +130,19 @@ int construire_chemin_from_object_to_depot(int numeroDepot, int numeroAlle, int 
   chemin[i - 1] = 2;
 
   *lenChemin = i;
+#ifdef _DEBUG_
+  printf("chemin from object to depot : ");
+  for (int j = 0; j < i; j++) {
+    printf("%d\t", chemin[j]);
+  }
+  printf("\nlenChemin : %d\n", i);
+#endif
 
   return 0;
 }
 
 int construire_chemin_from_depot_to_repos(int numeroDepot, int *chemin, int * lenChemin){
-  if (numeroDepot < 0 || numeroDepot > NBRE_DEPOT){
-    fprintf(stderr, "numero dépot incohérent\n");
-    return 3;
-  }
+  CHECK_NBRE_DEPOT;
 
   int i = 0;
   chemin[i] = 2;
@@ -160,10 +154,13 @@ int construire_chemin_from_depot_to_repos(int numeroDepot, int *chemin, int * le
   }
 
   *lenChemin = i;
+#ifdef _DEBUG_
+  printf("chemin from depot : ");
   for (int j = 0; j < i; j++){
     printf("%d\t", chemin[j]);
   }
   printf("\nlenChemin : %d\n",i);
+#endif
 
   return 0;
 }
@@ -175,18 +172,22 @@ int navigation(struct coordones c, int * sorties, int nbreDirections){
 
   while(index < nbreDirections){
     if (cellule == NULL){    // Le robot ne devrait pas sortir de la route
-      printf("Perdu en %d, %d\n", c.i, c.g);
+      fprintf(stderr, "Perdu en %d, %d\n", c.i, c.g);
       return 1;
 
     } else if (is_route(cellule)){ // S'il s'agit d'une route, on la suit
+#ifdef _DEBUG_
       printf("route ");
+#endif
       next_c = next_case(c, cellule->road.d);
       avancer_case(next_c);  // on déplace le robot ASKIP
       c = next_c;
       cellule = carte[c.i][c.g];
 
     } else if (is_intersection(cellule)){ // S'il s'agit d'une intersection, on suit le plan
+#ifdef _DEBUG_
       printf("intersection ");
+#endif
       if (sorties[index] == 1)
         next_c = next_case(c, cellule->inter.d1);
       else
@@ -197,6 +198,9 @@ int navigation(struct coordones c, int * sorties, int nbreDirections){
       cellule = carte[c.i][c.g];
     }
   }
+#ifdef _DEBUG_
   printf("fin nav\n");
+#endif
+
   return 0;
 }
