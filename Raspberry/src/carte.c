@@ -1,28 +1,25 @@
 #include <carte.h>
 
-
-struct coordones next_case(struct coordones coord, direction_t desire )
-{
-switch (desire)
-{
-case N:
-    coord.i +=  1;
+struct coordones next_case(struct coordones c, direction_t desire) {
+  struct coordones coord = c;
+  switch (desire) {
+  case N:
+    coord.i += 1;
     break;
-case S:
+  case S:
     coord.i -= 1;
     break;
-case E:
+  case E:
     coord.g += 1;
     break;
-case W:
+  case W:
     coord.g -= 1;
     break;
 
-default:
+  default:
     break;
-}
-    
-
+  }
+  return coord;
 }
 
 #define ALLEE_i(i) &(cell_t){.inter={N, E, i}}
