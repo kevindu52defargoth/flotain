@@ -5,7 +5,7 @@ CFLAGS += -lpthread
 CFLAGS += -I include
 LDFLAGS =
 
-OBJS = main.o driver_robot.o
+OBJS = main.o driver_robot.o carte.o
 
 all: main
 
