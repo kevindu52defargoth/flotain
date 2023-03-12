@@ -6,6 +6,10 @@
 #define NBRE_CASE_I 9  /* nombre de lignes sur la carte */
 #define NBRE_CASE_J 9  /* nombre de colonnes sur la carte */
 #define NBRE_CASE (NBRE_CASE_I*NBRE_CASE_J)
+#define NBRE_ALLEE 4
+#define NBRE_OBJ 4
+#define NBRE_DEPOT 2
+#define MAX_CHEMIN 10
 
 struct coordones{
   int i;
@@ -29,10 +33,17 @@ typedef struct route {
 
 typedef void allee_t;
 
-typedef union cell {
-  intersection_t inter;
-  route_t road;
+typedef struct cell {
+  union {
+    intersection_t inter;
+    route_t road;
+  };
+  int type;
 } cell_t;
+
+#define is_intersection(cell) (cell->type == 1)
+#define is_route(cell)(cell->type == 2)
+
 
 extern cell_t* carte[NBRE_CASE_I][NBRE_CASE_J];
 
@@ -40,5 +51,6 @@ cell_t coordones();
 
 struct coordones next_case(struct coordones, direction_t desire );
 
+extern struct coordones coord_repos;
 #define INCLUDE_CARTE
 #endif

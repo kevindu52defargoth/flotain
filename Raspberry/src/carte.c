@@ -4,10 +4,10 @@ struct coordones next_case(struct coordones c, direction_t desire) {
   struct coordones coord = c;
   switch (desire) {
   case N:
-    coord.i += 1;
+    coord.i -= 1;
     break;
   case S:
-    coord.i -= 1;
+    coord.i += 1;
     break;
   case E:
     coord.g += 1;
@@ -22,10 +22,10 @@ struct coordones next_case(struct coordones c, direction_t desire) {
   return coord;
 }
 
-#define ALLEE_i(i) &(cell_t){.inter={N, E, i}}
-#define DEPOT_i(i) &(cell_t){.inter={S, W, i+5}}
-#define ALLEE &(cell_t){.inter={W, E, 0}}
-#define ROUTE(d) &(cell_t){.road={d}}
+#define ALLEE_i(i) &(cell_t){.inter={N, E, i}, .type=1}
+#define DEPOT_i(i) &(cell_t){.inter={S, W, i+5}, .type=1}
+#define ALLEE &(cell_t){.inter={W, E, 0}, .type=1}
+#define ROUTE(d) &(cell_t){.road={d}, .type=2}
 
 cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
     {NULL, NULL, ROUTE(S), ROUTE(W), ROUTE(W), NULL, NULL, NULL, NULL},
@@ -38,3 +38,5 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
     {ROUTE(S), ROUTE(W), NULL, NULL, ALLEE_i(4), ALLEE, ALLEE, ALLEE, ALLEE,},
     {ROUTE(E), ROUTE(E), ROUTE(E), ROUTE(E),ROUTE(N), NULL, NULL, NULL, NULL},
 };
+
+struct coordones coord_repos = {8, 0};
