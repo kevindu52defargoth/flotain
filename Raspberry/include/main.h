@@ -10,7 +10,14 @@ int construire_chemin_from_depot_to_repos(int numeroDepot, int *chemin, int * le
 
 struct coordones faire_la_queue(struct coordones c);
 
-/* macros pur vérifier les entrées des construire_chemin_* */
+/* macro pour éviter les cases NULL*/
+#define CHECK_CASE_FOR_NULL  \
+if (cellule == NULL) { /* Le robot ne devrait pas sortir de la route */  \
+  fprintf(stderr, "Perdu en %d, %d\n", c.i, c.g);  \
+  return (struct coordones){-1, -1};  \
+}
+
+/* macros pour vérifier les entrées des construire_chemin_* */
 #define CHECK_NBRE_ALLEE \
 if (numeroAlle < 0 || numeroAlle > NBRE_ALLEE){  \
   fprintf(stderr, "numero allée incohérent\n");  \

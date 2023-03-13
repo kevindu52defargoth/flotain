@@ -171,11 +171,9 @@ struct coordones navigation(struct coordones c, int * sorties, int nbreDirection
   int index = 0;
 
   while(index < nbreDirections){
-    if (cellule == NULL){    // Le robot ne devrait pas sortir de la route
-      fprintf(stderr, "Perdu en %d, %d\n", c.i, c.g);
-      return (struct coordones) {-1, -1};
+    CHECK_CASE_FOR_NULL;
 
-    } else if (is_route(cellule)){ // S'il s'agit d'une route, on la suit
+    if (is_route(cellule)){ // S'il s'agit d'une route, on la suit
 #ifdef _DEBUG_
       printf("route ");
 #endif
@@ -211,10 +209,7 @@ struct coordones faire_la_queue(struct coordones c) {
   cellule = carte[c.i][c.g];
 
   while (c.i != coord_repos.i || c.g != coord_repos.g) {
-    if (cellule == NULL) { // Le robot ne devrait pas sortir de la route
-      fprintf(stderr, "Perdu en %d, %d\n", c.i, c.g);
-      return (struct coordones){-1, -1};
-    }
+    CHECK_CASE_FOR_NULL;
 #ifdef _DEBUG_
     printf("route ");
 #endif
