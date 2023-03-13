@@ -1,0 +1,144 @@
+.TH "useLibInet.c" 3 "Mon Mar 13 2023" "Version V 1.0" "Librarire INET" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+useLibInet.c \- Exemple d'utilisation de la librairie libinet\&.a\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <libgen\&.h>\fP
+.br
+\fC#include 'data\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBIP_ANY\fP   '0\&.0\&.0\&.0'"
+.br
+.RI "Adresse IP par défaut du serveur\&. "
+.ti -1c
+.RI "#define \fBPORT_SRV\fP   50000"
+.br
+.RI "Numéro de port par défaut du serveur\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBclient\fP (char *adrIP, int port)"
+.br
+.RI "lance un client STREAM connecté à l'adresse applicative adrIP:port "
+.ti -1c
+.RI "void \fBserveur\fP (char *adrIP, int port)"
+.br
+.RI "lance un serveur STREAM en écoute sur l'adresse applicative adrIP:port "
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.RI "Programme principal d'un serveur STREAM ou d'un client STREAM avec un protocole simple : envoi d'un message/ réception d'un message\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "char * \fBprogName\fP"
+.br
+.RI "Nom de l'exécutable\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Exemple d'utilisation de la librairie libinet\&.a\&. 
+
+
+.PP
+\fBAuthor\fP
+.RS 4
+Samir El Khattabi 
+.RE
+.PP
+\fBDate\fP
+.RS 4
+3 mars 2023 
+.RE
+.PP
+\fBVersion\fP
+.RS 4
+1\&.0 
+.RE
+.PP
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define IP_ANY   '0\&.0\&.0\&.0'"
+
+.PP
+Adresse IP par défaut du serveur\&. 
+.SS "#define PORT_SRV   50000"
+
+.PP
+Numéro de port par défaut du serveur\&. 
+.SH "Function Documentation"
+.PP 
+.SS "void client (char * adrIP, int port)"
+
+.PP
+lance un client STREAM connecté à l'adresse applicative adrIP:port 
+.PP
+\fBParameters\fP
+.RS 4
+\fIadrIP\fP : adresse IP du serveur à connecter 
+.br
+\fIport\fP : port du serveur à connecter 
+.RE
+.PP
+
+.SS "int main (int argc, char ** argv)"
+
+.PP
+Programme principal d'un serveur STREAM ou d'un client STREAM avec un protocole simple : envoi d'un message/ réception d'un message\&. 
+.PP
+\fBNote\fP
+.RS 4
+La compilation se fait avec -DCLIENT pour générer un client et -DSERVER pour un serveur 
+.RE
+.PP
+\fBParameters\fP
+.RS 4
+\fIargc\fP : nombre d'aguments de laligne de commande 
+.br
+\fIargv\fP : arguments de la commande en ligne Cas d'un serveur : adresse IP du serveur à metrre en écoute & port d'écoute Cas d'un client : adresse IP du serveur à connecter & port d'écoute du serveur 
+.RE
+.PP
+
+.SS "void serveur (char * adrIP, int port)"
+
+.PP
+lance un serveur STREAM en écoute sur l'adresse applicative adrIP:port 
+.PP
+\fBParameters\fP
+.RS 4
+\fIadrIP\fP : adresse IP du serveur à metrre en écoute 
+.br
+\fIport\fP : port d'écoute 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "char* progName"
+
+.PP
+Nom de l'exécutable\&. Nom de l'exécutable : libnet nécessite cette variable qui pointe sur argargv[0]\&.
+.PP
+\fBNote\fP
+.RS 4
+Variable externe : à déclarer par l'utilisateur 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Librarire INET from the source code\&.

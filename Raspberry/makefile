@@ -3,9 +3,12 @@ CFLAGS  = -Wall
 CFLAGS += -std=c99
 CFLAGS += -lpthread
 CFLAGS += -I include
+ifdef _DEBUG_
+CFLAGS += -D_DEBUG_
+endif
 LDFLAGS =
 
-OBJS = main.o driver_robot.o
+OBJS = main.o driver_robot.o carte.o
 
 all: main
 

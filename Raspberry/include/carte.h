@@ -1,10 +1,15 @@
 /* Pour contenir les données sur la carte que doivent parcourir les robots */
 
 #include "stdlib.h"
+#ifndef INCLUDE_CARTE
 #define L_CASE 23.6  /* coté d'une case en cm */
 #define NBRE_CASE_I 9  /* nombre de lignes sur la carte */
 #define NBRE_CASE_J 9  /* nombre de colonnes sur la carte */
 #define NBRE_CASE (NBRE_CASE_I*NBRE_CASE_J)
+#define NBRE_ALLEE 4
+#define NBRE_OBJ 4
+#define NBRE_DEPOT 2
+#define MAX_CHEMIN 10
 
 struct coordones{
   int i;
@@ -15,7 +20,6 @@ struct coordonesreel{
   int x;
   int y;
 }; 
-
 typedef enum direction{
   N, S, E, W
 } direction_t;
@@ -33,18 +37,19 @@ typedef struct route {
 
 typedef void allee_t;
 
-typedef union cell {
-  intersection_t inter;
-  route_t road;
+typedef struct cell {
+  union {
+    intersection_t inter;
+    route_t road;
+  };
+  int type;
 } cell_t;
 
-cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] ;
+#define is_intersection(cell) (cell->type == 1)
+#define is_route(cell)(cell->type == 2)
 
 
-#define ALLEE_i(i) &(cell_t){.inter={N, E, i}}
-#define DEPOT_i(i) &(cell_t){.inter={S, W, i+5}}
-#define ALLEE &(cell_t){.inter={W, E, 0}}
-#define ROUTE(d) &(cell_t){.road={d}}
+extern cell_t* carte[NBRE_CASE_I][NBRE_CASE_J];
 
 cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
   {NULL, NULL, ROUTE(S), ROUTE(W), ROUTE(W), NULL, NULL, NULL, NULL},
@@ -61,5 +66,9 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
 
 struct coordonesreel coordones_trad(struct coordones);
 
-struct coordones next_case(struct coordones, direction desire );
+struct coordones next_case(struct coordones, direction_t desire );
 
+
+extern struct coordones coord_repos;
+#define INCLUDE_CARTE
+#endif
