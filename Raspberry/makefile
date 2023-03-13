@@ -3,8 +3,13 @@ CFLAGS  = -Wall
 CFLAGS += -std=c99
 CFLAGS += -lpthread
 CFLAGS += -I include
+CFLAGS += -L .
+ifndef _DEBUG_
+CFLAGS += -l inet
+endif
 ifdef _DEBUG_
 CFLAGS += -D_DEBUG_
+CFLAGS += -l inetdebug
 endif
 LDFLAGS =
 

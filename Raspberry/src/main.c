@@ -6,6 +6,7 @@
 #include <driver_robot.h>
 #include <main.h>
 #include <unistd.h>
+#include <data.h>
 
 #define RANDOM(min, max) (min) + rand() % ((max) - (min) + 1)
 
