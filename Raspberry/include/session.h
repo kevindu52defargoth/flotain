@@ -21,12 +21,6 @@
  *	\note		D E F I N I T I O N   DES   M A C R O S
  */
 /**
- *	\def		CHECK(sts, msg)
- *	\brief		Macro-fonction qui vérifie que sts est différent de -1 (cas d'erreur) 
- *				En cas d'erreur, il y a affichage du message adéquat et fin d'exécution  
- */
-#define CHECK(sts, msg) if ((sts)==-1) {perror(msg); exit(-1);}
-/**
  *	\def		PAUSE(msg)
  *	\brief		Macro-fonction qui affiche msg et attend une entrée clavier  
  */
