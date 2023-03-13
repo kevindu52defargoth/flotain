@@ -10,6 +10,10 @@
 
 #define RANDOM(min, max) (min) + rand() % ((max) - (min) + 1)
 
+/* definition pour la communication avec le serveur */
+#define IP_SRV	"0.0.0.0"
+#define PORT_SRV	8002
+
 /* macros temporaire pour le test */
 #define avancer_case(c)                                                        \
   sleep(RANDOM(1, 2));                                                         \
@@ -29,14 +33,18 @@ enum STATE {
 int state;
 pthread_mutex_t screen;
 int main(int argc, char **argv) {
+  socket_t sockAppel;	// socket d'appel
+  buffer_t buff;
   pthread_mutex_unlock(&screen);
   PRINT("hello world");
 
   int *chemin1, *chemin2, *chemin3;
   int lenChemin1, lenChemin2, lenChemin3;
   struct coordones coordones_courantes = coord_repos;
-
   // ouverture d'une connection avec le serveur du gestionnaire
+  sockAppel = connecterClt2Srv(IP_SRV, PORT_SRV);
+  envoyer(&sockAppel, "salut\n", NULL);
+  PRINT("ok connect");
 
   while (1) {
     // on envoie au gestionnaire que l'on attend un ordre
@@ -91,6 +99,8 @@ int main(int argc, char **argv) {
     coordones_courantes = faire_la_queue(coordones_courantes);
     CHECK_COORD_FOR_INVALID;
   }
+  CHECK(shutdown(sockAppel.fd, SHUT_WR),"-- PB shutdown() --");
+  return 0;
 }
 
 int construire_chemin_to_objet(int numeroAlle, int numeroObjet, int *chemin,

@@ -3,15 +3,14 @@ CFLAGS  = -Wall
 CFLAGS += -std=c99
 CFLAGS += -lpthread
 CFLAGS += -I include
-CFLAGS += -L .
+LDFLAGS += -L .
 ifndef _DEBUG_
-CFLAGS += -l inet
+LDFLAGS += -l inet
 endif
 ifdef _DEBUG_
 CFLAGS += -D_DEBUG_
-CFLAGS += -l inetdebug
+LDFLAGS += -l inetdebug
 endif
-LDFLAGS =
 
 OBJS = main.o driver_robot.o carte.o
 
