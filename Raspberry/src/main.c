@@ -31,10 +31,7 @@ int main(int argc, char **argv){
 
   int * chemin1, * chemin2, * chemin3;
   int lenChemin1, lenChemin2, lenChemin3;
-
-  /* variables temporaires pour le test */
-  struct coordones objet = {5, 7};
-  struct coordones depot = {1, 1};
+  struct coordones coordones_courantes = coord_repos;
 
   // ouverture d'une connection avec le serveur du gestionnaire
 
@@ -56,29 +53,32 @@ int main(int argc, char **argv){
 
     // navigation vers l'objet
     state = ON_THE_ROAD;
-    navigation(coord_repos, chemin1, lenChemin1);
+    coordones_courantes = navigation(coord_repos, chemin1, lenChemin1);
 
     //on arrive à l'objet
     state = PICKING_UP;
 
+    printf("On prend l'objet 😉\n");
     sleep(RANDOM(1, 20));
         // on simule la prise de l'objet
 
     // navigation vers le dépôt
     state = ON_THE_ROAD;
-    navigation(objet, chemin2, lenChemin2);
+    coordones_courantes = navigation(coordones_courantes, chemin2, lenChemin2);
 
     //on arrive au dépôt
     state = UNLOADING;
 
+    printf("On dépose l'objet 😉\n");
     sleep(RANDOM(1, 10));
         // on simule le dépôt de l'objet
 
     // navigation vers la zone d'attente
     state = ON_THE_ROAD;
-    navigation(depot, chemin3, lenChemin3);
+    coordones_courantes =  navigation(coordones_courantes, chemin3, lenChemin3);
     // on reste probablement bloqué dans la zone d'attente derrière un autre robot
     state = WAINTING_ZONE;
+    coordones_courantes = faire_la_queue(coordones_courantes);
   }
 }
 
@@ -165,7 +165,7 @@ int construire_chemin_from_depot_to_repos(int numeroDepot, int *chemin, int * le
   return 0;
 }
 
-int navigation(struct coordones c, int * sorties, int nbreDirections){
+struct coordones navigation(struct coordones c, int * sorties, int nbreDirections){
   cell_t * cellule = carte[c.i][c.g];
   struct coordones next_c;
   int index = 0;
@@ -173,7 +173,7 @@ int navigation(struct coordones c, int * sorties, int nbreDirections){
   while(index < nbreDirections){
     if (cellule == NULL){    // Le robot ne devrait pas sortir de la route
       fprintf(stderr, "Perdu en %d, %d\n", c.i, c.g);
-      return 1;
+      return (struct coordones) {-1, -1};
 
     } else if (is_route(cellule)){ // S'il s'agit d'une route, on la suit
 #ifdef _DEBUG_
@@ -202,5 +202,26 @@ int navigation(struct coordones c, int * sorties, int nbreDirections){
   printf("fin nav\n");
 #endif
 
-  return 0;
+  return c;
+}
+
+struct coordones faire_la_queue(struct coordones c) {
+  cell_t *cellule;
+  struct coordones next_c;
+  cellule = carte[c.i][c.g];
+
+  while (c.i != coord_repos.i || c.g != coord_repos.g) {
+    if (cellule == NULL) { // Le robot ne devrait pas sortir de la route
+      fprintf(stderr, "Perdu en %d, %d\n", c.i, c.g);
+      return (struct coordones){-1, -1};
+    }
+#ifdef _DEBUG_
+    printf("route ");
+#endif
+    next_c = next_case(c, cellule->road.d);
+    avancer_case(next_c); // on déplace le robot ASKIP
+    c = next_c;
+    cellule = carte[c.i][c.g];
+  }
+  return c;
 }
