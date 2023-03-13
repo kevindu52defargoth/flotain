@@ -6,20 +6,20 @@
 #include <termios.h>
 
 
-int treat_angle(angle)
-{
-    if (angle/abs(angle) == -1)
-        angle =+ 180;
-    return angle;
-}
+// int treat_angle(angle)
+// {
+//     if (angle/abs(angle) == -1)
+//         angle =+ 180;
+//     return angle;
+// }
 
 int main()
 {
     int fd;
     struct termios options;
     char buffer[255];
-    int command;
-    char command_buf[2];
+    float t1,t2;
+    char command_buf[10];
     
     fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -53,7 +53,8 @@ int main()
         // cleanning the buffers
         memset(buffer, 0, sizeof(buffer));
         memset(command_buf, 0, sizeof(command_buf));
-        command = 2;
+        t1 = 5;
+        t2 = 5;
         
         // verify is it's a angle turn funtion 
         if (command > 5)
@@ -61,8 +62,11 @@ int main()
             command= treat_angle(command);
         }
         
-        // transform into char a integer 
-        command_buf[0]=command;
+        // transform into char two floats separeted by a comma
+
+        sprintf(command_buf, "%.2f,%.2f", t1, t2);
+
+        // command_buf[0]=command;
         
         
         /* 
@@ -90,7 +94,7 @@ int main()
             
             // Send data to the Arduino
             
-            write(fd, command_buf, 1);
+            write(fd, command_buf, 10);
 
             // period
             usleep(4000000); // Sleep for 1 second

@@ -24,3 +24,13 @@ default:
     
 
 }
+
+
+struct coordonesreel coordones_trad(struct coordones coordones_tableau){
+
+    struct coordonesreel coordonestrad;
+
+    coordonestrad.x = L_CASE * (coordones_tableau.i - 1/2 ); 
+    
+    coordonestrad.y = L_CASE * (coordones_tableau.G - 1/2 );
+}

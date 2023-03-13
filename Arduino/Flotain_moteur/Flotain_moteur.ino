@@ -34,7 +34,7 @@ unsigned long lastTick = 0;
 #define PERIODE 100 //en millisecondes
 
 char command[3];
-
+float t1,t2;
 
 void setup() {
   // put your setup code here, to run once:
@@ -49,10 +49,13 @@ void loop() {
   if (Serial.available() > 0 ){
    // String data = Serial.readStringUntil('\n');
 
-   int data = Serial.read();
-   Serial.print("You sent me: ");
-   Serial.println(data);
-   setCommand(data);
+   receive_tensions(&t1, &t2);
+
+    Serial.print("You sent me: ");
+    Serial.print("Received data: ");
+    Serial.print(t1);
+    Serial.print(", ");
+    Serial.println(t2);
   }
   
 
@@ -62,17 +65,25 @@ void loop() {
 }
 
 
-// void addMessage(str data){
-//   String data = Serial.readStringUntil('\n');
-//   Serial.print("You sent me: ");
-//   Serial.println(data);
 
-// }
+
+void receive_tensions(float *x, float *y){
+  byte buffer[8];
+  int i = 0;
+  while (i < 8) { // read 8 bytes (2 floats)
+    if (Serial.available() > 0) {
+      buffer[i] = Serial.read();
+      i++;
+    }
+  }
+  *x = *((float*)buffer); // cast the first 4 bytes to float
+  *y = *((float*)(buffer + 4)); // cast the next 4 bytes to float  
+}
 
 void setCommand(int data){
   
   // msg_acept = true;
-  Serial.println(data);
+
   
   switch(data){
     case 0:

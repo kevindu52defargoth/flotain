@@ -6,8 +6,18 @@
 #include <main.h>
 #include <carte.h>
 #include <unistd.h>
+#include<network.h>
 
 #define RANDOM(min, max) (min) + rand() % ((max) - (min) + 1)
+
+
+#define SEND_READY() printf("function send ready")
+#define SEND_DEMANDE_RES() printf("function send res demand")
+#define SEND_FREE_RES() printf("function send free res")
+#define SEND_OBJ_OK() printf("function send objet ok")
+#define SEND_OBJ_DEPOT() printf("function send objet depot")
+
+
 
 enum STATE {
   WAINTING_ZONE,
@@ -22,10 +32,37 @@ enum STATE {
 
 int state;
 pthread_mutex_t screen;
+
+
 int main(int argc, char **argv){
   pthread_mutex_unlock(&screen);
   PRINT("hello world");
 
+  int sd1; //descripteur de socket de dialogue
+  struct sockaddr_in addrServ, addrCli;
+  char buff[MAXCAR+1];
+  int erreur, nbcar;
+  int adrlg=sizeof(struct sockaddr_in);
+
+  // Creation de la socket 
+  sd1=socket(AF_INET, SOCK_STREAM, 0);
+
+  CHECKERROR(sd1,-1, "Creation fail !!!\n");
+
+  //Etape2 - Adressage du destinataire
+
+  addrServ.sin_family=AF_INET;
+  addrServ.sin_port = htons(REMOTEPORT);
+  addrServ.sin_addr.s_addr = inet_addr(REMOTEIP);
+
+ // Etape 3 - demande d'ouverture de connexion sd1
+  CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
+                sizeof(struct sockaddr_in)), "Probleme connection\n");
+
+  printf("OK connect sd1\n");
+
+
+  
   while(1){
     // on envoie au gestionnaire que l'on attend un ordre
     state = AWAITING_ORDER;

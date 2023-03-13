@@ -9,7 +9,12 @@
 struct coordones{
   int i;
   int g;
-} 
+}; 
+
+struct coordonesreel{
+  int x;
+  int y;
+}; 
 
 typedef enum direction{
   N, S, E, W
@@ -54,6 +59,7 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
 };
 
 
-cell_t coordones();
+struct coordonesreel coordones_trad(struct coordones);
 
 struct coordones next_case(struct coordones, direction desire );
+
