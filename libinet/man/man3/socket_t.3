@@ -1,0 +1,46 @@
+.TH "socket_t" 3 "Mon Mar 13 2023" "Version V 1.0" "Librarire INET" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+socket_t
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <session\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "int \fBfd\fP"
+.br
+.ti -1c
+.RI "int \fBmode\fP"
+.br
+.ti -1c
+.RI "struct sockaddr_in \fBaddrLoc\fP"
+.br
+.ti -1c
+.RI "struct sockaddr_in \fBaddrDst\fP"
+.br
+.in -1c
+.SH "Field Documentation"
+.PP 
+.SS "struct sockaddr_in addrDst"
+adresse locale de la socket 
+.br
+ 
+.SS "struct sockaddr_in addrLoc"
+mode connecté/non : STREAM/DGRAM 
+.br
+ 
+.SS "int fd"
+
+.SS "int mode"
+numéro de la socket créée 
+.br
+ 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Librarire INET from the source code\&.
