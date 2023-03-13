@@ -66,7 +66,14 @@ cell_t* carte[NBRE_CASE_I][NBRE_CASE_J] = {
 
 struct coordonesreel coordones_trad(struct coordones);
 
-struct coordones next_case(struct coordones, direction_t desire );
+/**
+ * Donne la prochaine case à partir de la case où l'on est et d'une direction
+ *
+ * @param c coordonnées de la case où l'on se trouve
+ * @param desire direction dans laquelle on veut aller
+ * @return case de destination
+ */
+struct coordones next_case(struct coordones c, direction_t desire );
 
 
 extern struct coordones coord_repos;
