@@ -51,7 +51,12 @@ typedef struct cell {
 
 extern cell_t* carte[NBRE_CASE_I][NBRE_CASE_J];
 
-struct coordonesreel coordones_trad(struct coordones);
+/**
+ * transforme les coordonées (i, j) d'une case en les coordonnées (x, y) de son centre
+ * @param coordones_tableau les coordonnées de la case
+ * @return (x, y) dans le repère physique
+ */
+struct coordonesreel coordones_trad(struct coordones coordones_tableau);
 
 /**
  * Donne la prochaine case à partir de la case où l'on est et d'une direction
