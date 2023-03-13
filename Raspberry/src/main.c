@@ -43,17 +43,18 @@ int main(int argc, char **argv){
 
     // on convertit l'ordre en chemins à suivre
     chemin1 = malloc(MAX_CHEMIN * sizeof(int));
-    construire_chemin_to_objet(1, 2, chemin1, &lenChemin1);
+    CHECK(construire_chemin_to_objet(1, 2, chemin1, &lenChemin1), "objet ou dépôt invalide");
 
     chemin2 = malloc(MAX_CHEMIN * sizeof(int));
-    construire_chemin_from_object_to_depot(1, 1, 2, chemin2, &lenChemin2);
+    CHECK(construire_chemin_from_object_to_depot(1, 1, 2, chemin2, &lenChemin2), "objet ou dépôt invalide");
 
     chemin3 = malloc(MAX_CHEMIN * sizeof(int));
-    construire_chemin_from_depot_to_repos(1, chemin3, &lenChemin3);
+    CHECK(construire_chemin_from_depot_to_repos(1, chemin3, &lenChemin3), "objet ou dépôt invalide");
 
     // navigation vers l'objet
     state = ON_THE_ROAD;
     coordones_courantes = navigation(coord_repos, chemin1, lenChemin1);
+    CHECK_COORD_FOR_INVALID;
 
     //on arrive à l'objet
     state = PICKING_UP;
@@ -65,6 +66,7 @@ int main(int argc, char **argv){
     // navigation vers le dépôt
     state = ON_THE_ROAD;
     coordones_courantes = navigation(coordones_courantes, chemin2, lenChemin2);
+    CHECK_COORD_FOR_INVALID;
 
     //on arrive au dépôt
     state = UNLOADING;
@@ -76,9 +78,11 @@ int main(int argc, char **argv){
     // navigation vers la zone d'attente
     state = ON_THE_ROAD;
     coordones_courantes =  navigation(coordones_courantes, chemin3, lenChemin3);
+    CHECK_COORD_FOR_INVALID;
     // on reste probablement bloqué dans la zone d'attente derrière un autre robot
     state = WAINTING_ZONE;
     coordones_courantes = faire_la_queue(coordones_courantes);
+    CHECK_COORD_FOR_INVALID;
   }
 }
 

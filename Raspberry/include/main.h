@@ -17,6 +17,11 @@ if (cellule == NULL) { /* Le robot ne devrait pas sortir de la route */  \
   return (struct coordones){-1, -1};  \
 }
 
+#define CHECK_COORD_FOR_INVALID  \
+  if (coordones_courantes.i == -1 && coordones_courantes.g == -1){  \
+    printf("\e[31m" "PERDU" "\e[0m");  \
+  }
+
 /* macros pour vérifier les entrées des construire_chemin_* */
 #define CHECK_NBRE_ALLEE \
 if (numeroAlle < 0 || numeroAlle > NBRE_ALLEE){  \
