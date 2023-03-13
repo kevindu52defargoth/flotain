@@ -27,8 +27,8 @@ struct coordonesreel coordones_trad(struct coordones coordones_tableau){
 
     struct coordonesreel coordonestrad;
 
-    coordonestrad.x = L_CASE * (coordones_tableau.i - 1/2 ); 
-    coordonestrad.y = L_CASE * (coordones_tableau.g - 1/2 );
+    coordonestrad.x = L_CASE * (coordones_tableau.i - 0.5);
+    coordonestrad.y = L_CASE * (coordones_tableau.g - 0.5);
     return coordonestrad;
 }
 
