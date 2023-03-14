@@ -9,10 +9,15 @@ typedef enum message{
   OBJ_DEPOT
 } message_t;
 
-#define MAXCAR  80
-#define LOCALIP "127.0.0.1"
-#define REMOTEIP "127.0.0.1"
-#define REMOTEPORT 3000
+// #define MAXCAR  80
+// #define LOCALIP "127.0.0.1"
+// #define REMOTEIP "127.0.0.1"
+// #define REMOTEPORT 3000
+
+#define IP_SRV	"0.0.0.0"
+#define PORT_SRV	8002
+
+
 
 #define CHECKERROR(var,val,msg)     if (var==val) {perror(msg); exit(1);}
 

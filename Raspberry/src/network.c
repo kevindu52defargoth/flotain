@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include<C:\Users\ADERALDO\Desktop\Parcours\Flotte\Flotte\flotain\Raspberry\include\network.h>
 #include<string.h>
+#include <data.h>
 
 void preparer_message(message_t head, char* info)
 {  
@@ -31,9 +32,14 @@ void preparer_message(message_t head, char* info)
 // void preparer_message(message_t head, char info)
 int main()
 {   
+    socket_t sockAppel;	// socket d'appel
     message_t head = DEMANDE_RES;
     char *info = "1.2.2";
     preparer_message(head, info);
+
+    sockAppel = connecterClt2Srv(IP_SRV, PORT_SRV);
+    envoyer(&sockAppel, "salut\n", NULL);
+    PRINT("ok connect");
 }
 
 
