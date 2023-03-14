@@ -6,6 +6,7 @@
 #include <termios.h>
 
 
+
 // int treat_angle(angle)
 // {
 //     if (angle/abs(angle) == -1)
@@ -56,15 +57,12 @@ int main()
         t1 = 5;
         t2 = 5;
         
-        // verify is it's a angle turn funtion 
-        if (command > 5)
-        {   
-            command= treat_angle(command);
-        }
-        
+ 
         // transform into char two floats separeted by a comma
 
-        sprintf(command_buf, "%.2f,%.2f", t1, t2);
+        memcpy(command_buf, &t1, sizeof(float)); // copy the bytes of t1 into buffer
+        memcpy(command_buf + 4, &t2, sizeof(float)); // copy the bytes of t2 into buffer
+
 
         // command_buf[0]=command;
         
@@ -86,7 +84,7 @@ int main()
         
         
         
-        if (read(fd, buffer, sizeof(buffer)) > 0) {
+            read(fd, buffer, sizeof(buffer)) 
             
             //int num = atoi(buffer);
          
@@ -94,11 +92,11 @@ int main()
             
             // Send data to the Arduino
             
-            write(fd, command_buf, 10);
+            write(fd, command_buf, strlen(command_buf));
 
             // period
             usleep(4000000); // Sleep for 1 second
-        }
+        // }
 
     }
 

@@ -49,9 +49,9 @@ void loop() {
   if (Serial.available() > 0 ){
    // String data = Serial.readStringUntil('\n');
 
-   receive_tensions(&t1, &t2);
+    receive_tensions(&t1, &t2);
 
-    Serial.print("You sent me: ");
+
     Serial.print("Received data: ");
     Serial.print(t1);
     Serial.print(", ");
@@ -60,7 +60,7 @@ void loop() {
   
 
   
-
+  
   delay(1000);
 }
 
