@@ -8,44 +8,24 @@
 #include <unistd.h>
 #include<C:\Users\ADERALDO\Desktop\Parcours\Flotte\Flotte\flotain\Raspberry\include\network.h>
 #include<string.h>
-#include <data.h>
+// #include <data.h>
 
-void preparer_message(message_t head, char* info)
-{  
-                         
-    /* this function takes two arguments to stardize 
-       the message into the protocol created   {head.info}
-    */
-
-                         
-    char message[strlen(info) + sizeof(head) + 2];  /* make sure the buffer is large enough to hold the converted string
-                                                     the + 2 is for the colon and null terminator) */ 
+ char *preparer_message(message_t head, char* info)
+{    
+    char* message = malloc(strlen(info) + sizeof(head) + 2); // allocate memory dynamically
     
-    sprintf(message, "%d:%s", head, info);          //merging into the format required to the protocol
-
-
-    // printf("Merged string: %s\n", message);
-
+    sprintf(message, "%d:%s", head, info);
+    
+    return message;
 }
 
-
-// void preparer_message(message_t head, char info)
 int main()
 {   
-    socket_t sockAppel;	// socket d'appel
     message_t head = DEMANDE_RES;
     char *info = "1.2.2";
-    preparer_message(head, info);
+    char *msg = preparer_message(head, info);
 
-    sockAppel = connecterClt2Srv(IP_SRV, PORT_SRV);
-    envoyer(&sockAppel, "salut\n", NULL);
-    PRINT("ok connect");
-}
+    printf("Merged string: %s\n", msg);
 
-
-
-
-void evoyer()
-{
-  
+    free(msg); // free the dynamically allocated memory
 }
