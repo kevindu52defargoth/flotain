@@ -34,7 +34,11 @@ unsigned long lastTick = 0;
 #define PERIODE 100 //en millisecondes
 
 char command[3];
-float t1,t2;
+float t1;
+float t2;
+int i = 0;
+char buffer[32];
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -46,38 +50,48 @@ void setup() {
 
 void loop() {
   //tickHorloge();
-  if (Serial.available() > 0 ){
-   // String data = Serial.readStringUntil('\n');
-
-    receive_tensions(&t1, &t2);
-
-
-    Serial.print("Received data: ");
-    Serial.print(t1);
-    Serial.print(", ");
-    Serial.println(t2);
-  }
+  // if (Serial.available() > 0 ){
+  //   String data = Serial.readStringUntil('\n');
   
+  // //   // receive_tensions(&t1, &t2);
+  // //   // if (Serial.available() > 0) {
+  // //   char buffer = Serial.read();
+   
+  //   Serial.print("Received data: ");
+  //   Serial.print(data);
+  //   } 
 
+  receive_tensions(&t1,&t2);
+
+  Serial.println(t1);
   
-  
+  Serial.println(t2);
+
   delay(1000);
+
 }
 
 
 
 
-void receive_tensions(float *x, float *y){
-  byte buffer[8];
+void receive_tensions(  float *x,  float *y){
+
+  byte buffer[10];
   int i = 0;
   while (i < 8) { // read 8 bytes (2 floats)
     if (Serial.available() > 0) {
       buffer[i] = Serial.read();
+      Serial.println(buffer[i]);
       i++;
     }
   }
+
   *x = *((float*)buffer); // cast the first 4 bytes to float
   *y = *((float*)(buffer + 4)); // cast the next 4 bytes to float  
+  Serial.println("olha ai");
+  
+  Serial.println(*x);
+  Serial.println(*y);
 }
 
 void setCommand(int data){
