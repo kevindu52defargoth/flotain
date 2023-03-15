@@ -22,6 +22,10 @@
 *.la
 *.lo
 
+# On garde les librairies de M Khattabi
+!libinetdebug.a
+!libinet.a
+
 # Shared objects (inc. Windows DLLs)
 *.dll
 *.so
