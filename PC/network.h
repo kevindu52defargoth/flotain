@@ -2,7 +2,7 @@
 
 
 typedef enum message{
-  READY, 
+  READY= '0', 
   DEMANDE_RES, 
   FREE_RES, 
   OBJ_OK,
