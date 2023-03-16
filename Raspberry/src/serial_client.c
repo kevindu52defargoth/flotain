@@ -48,7 +48,7 @@ int serial_ouvert()
 }
 
 
-void send_tension(float t1, float t2,int fd){
+void send_tensions(float t1, float t2,int fd){
     
     char command_buf[10];
 
