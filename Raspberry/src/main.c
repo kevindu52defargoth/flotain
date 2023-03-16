@@ -6,7 +6,8 @@
 #include <main.h>
 #include <carte.h>
 #include <unistd.h>
-#include<network.h>
+#include <network.h>
+#include <serial_client.h>
 
 #define RANDOM(min, max) (min) + rand() % ((max) - (min) + 1)
 
@@ -34,32 +35,36 @@ int main(int argc, char **argv){
   pthread_mutex_unlock(&screen);
   PRINT("hello world");
 
+  //test communication série
+  int fd = serial_ouvert();
+  send_tensions(5.0, 3.0,fd);
+
   int * chemin1, * chemin2, * chemin3;
   int lenChemin1, lenChemin2, lenChemin3;
   struct coordones coordones_courantes = coord_repos;
 
   // ouverture d'une connection avec le serveur du gestionnaire
 
-  int sd1; //descripteur de socket de dialogue
-  struct sockaddr_in addrServ, addrCli;
-  char buff[MAXCAR+1];
-  int erreur, nbcar;
-  int adrlg=sizeof(struct sockaddr_in);
-
-  // Creation de la socket 
-  sd1=socket(AF_INET, SOCK_STREAM, 0);
-
-  CHECKERROR(sd1,-1, "Creation fail !!!\n");
-
-  //Etape2 - Adressage du destinataire
-
-  addrServ.sin_family=AF_INET;
-  addrServ.sin_port = htons(REMOTEPORT);
-  addrServ.sin_addr.s_addr = inet_addr(REMOTEIP);
-
- // Etape 3 - demande d'ouverture de connexion sd1
-  CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
-                sizeof(struct sockaddr_in)), "Probleme connection\n");
+ //  int sd1; //descripteur de socket de dialogue
+ //  struct sockaddr_in addrServ, addrCli;
+ //  char buff[MAXCAR+1];
+ //  int erreur, nbcar;
+ //  int adrlg=sizeof(struct sockaddr_in);
+ //
+ //  // Creation de la socket
+ //  sd1=socket(AF_INET, SOCK_STREAM, 0);
+ //
+ //  CHECKERROR(sd1,-1, "Creation fail !!!\n");
+ //
+ //  //Etape2 - Adressage du destinataire
+ //
+ //  addrServ.sin_family=AF_INET;
+ //  addrServ.sin_port = htons(REMOTEPORT);
+ //  addrServ.sin_addr.s_addr = inet_addr(REMOTEIP);
+ //
+ // // Etape 3 - demande d'ouverture de connexion sd1
+ //  CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
+ //                sizeof(struct sockaddr_in)), "Probleme connection\n");
 
   printf("OK connect sd1\n");
 
