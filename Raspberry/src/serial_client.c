@@ -14,13 +14,11 @@
 //     return angle;
 // }
 
-int main()
+int serial_ouvert()
 {
     int fd;
     struct termios options;
     char buffer[255];
-    float t1,t2;
-    char command_buf[10];
     
     fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -46,44 +44,42 @@ int main()
         perror("Error: Unable to set serial port options");
         return 1;
     }
+    return fd;
+}
 
 
+void send_tension(float t1, float t2,int fd){
+    
+    char command_buf[10];
 
-    while (1) {
-     
-        // cleanning the buffers
-        memset(buffer, 0, sizeof(buffer));
-        memset(command_buf, 0, sizeof(command_buf));
-        t1 = 5;
-        t2 = 8;
-        
- 
-        // transform into char two floats separeted by a comma
+    // cleanning the buffers
+    memset(buffer, 0, sizeof(buffer));
+    memset(command_buf, 0, sizeof(command_buf));
+    t1 = 5;
+    t2 = 8;
+    
+    // transform into char two floats separeted by a comma
 
-        memcpy(command_buf, &t1, sizeof(float)); // copy the bytes of t1 into buffer
-        memcpy(command_buf + 4, &t2, sizeof(float)); // copy the bytes of t2 into buffer
-        printf("testando\n");
+    memcpy(command_buf, &t1, sizeof(float)); // copy the bytes of t1 into buffer
+    memcpy(command_buf + 4, &t2, sizeof(float)); // copy the bytes of t2 into buffer
+    printf("testando\n");
 
-         for (int i = 0; i < sizeof(command_buf); i++) {
-        printf("%02X ", command_buf[i]);
-        }
-        // command_buf[0]=command;
-        
-            read(fd, buffer, sizeof(buffer)) ;
-         
-            printf(" %s ", buffer);
-            
-            // Send data to the Arduino
-            
-            write(fd, command_buf, sizeof(float)*2);
+    //  for (int i = 0; i < sizeof(command_buf); i++) {
+    // printf("%02X ", command_buf[i]);
+    // }
+    // command_buf[0]=command;
+    
+    read(fd, buffer, sizeof(buffer)) ;
+    
+    // printf(" %s ", buffer);
+    
+    // Send data to the Arduino
+    
+    write(fd, command_buf, sizeof(float)*2);
 
-            // period
-            usleep(4000000); // Sleep for 1 second
-        // }
-        
-    printf("rodando\n");
+    // period
+    usleep(4000000); // Sleep for 1 second
 
-    }
 
     close(fd);
     return 0;
