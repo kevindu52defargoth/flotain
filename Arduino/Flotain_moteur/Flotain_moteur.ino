@@ -54,7 +54,7 @@ void loop() {
   //   String data = Serial.readStringUntil('\n');
   
   // //   // receive_tensions(&t1, &t2);
-  // //   // if (Serial.available() > 0) {
+  // //   // if (Serial.available()  > 0) {
   // //   char buffer = Serial.read();
    
   //   Serial.print("Received data: ");
@@ -67,7 +67,13 @@ void loop() {
   
   Serial.println(t2);
 
+  setMotor1ByTension(t1);
+  setMotor2ByTension(t2);
   delay(1000);
+
+
+
+  
 
 }
 
