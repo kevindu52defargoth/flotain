@@ -1,27 +1,16 @@
 #include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
 
-
-
-// int treat_angle(angle)
-// {
-//     if (angle/abs(angle) == -1)
-//         angle =+ 180;
-//     return angle;
-// }
-
-int main()
+int serial_ouvert()
 {
     int fd;
     struct termios options;
-    char buffer[255];
-    float t1,t2;
-    char command_buf[10];
-    
+
     fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (fd == -1) {
@@ -46,45 +35,33 @@ int main()
         perror("Error: Unable to set serial port options");
         return 1;
     }
+    sleep(1);
+    return fd;
+}
 
 
+void send_tensions(float t1, float t2, int fd){
+    char buffer[255];
+    char command_buf[10];
 
-    while (1) {
-     
-        // cleanning the buffers
-        memset(buffer, 0, sizeof(buffer));
-        memset(command_buf, 0, sizeof(command_buf));
-        t1 = 5;
-        t2 = 8;
-        
- 
-        // transform into char two floats separeted by a comma
+    printf("T1 : %f, T2 : %f\n", t1, t2);
+    // cleanning the buffers
+    memset(buffer, 0, sizeof(buffer));
+    memset(command_buf, 0, sizeof(command_buf));
 
-        memcpy(command_buf, &t1, sizeof(float)); // copy the bytes of t1 into buffer
-        memcpy(command_buf + 4, &t2, sizeof(float)); // copy the bytes of t2 into buffer
-        printf("testando\n");
+    // transform into char two floats separeted by a comma
 
-         for (int i = 0; i < sizeof(command_buf); i++) {
-        printf("%02X ", command_buf[i]);
-        }
-        // command_buf[0]=command;
-        
-            read(fd, buffer, sizeof(buffer)) ;
-         
-            printf(" %s ", buffer);
-            
-            // Send data to the Arduino
-            
-            write(fd, command_buf, sizeof(float)*2);
+    memcpy(command_buf, &t1, sizeof(float)); // copy the bytes of t1 into buffer
+    memcpy(command_buf + 4, &t2, sizeof(float)); // copy the bytes of t2 into buffer
 
-            // period
-            usleep(4000000); // Sleep for 1 second
-        // }
-        
-    printf("rodando\n");
+    read(fd, buffer, sizeof(buffer)) ;
 
-    }
+    //printf(" %s ", buffer);
 
-    close(fd);
-    return 0;
+    // Send data to the Arduino
+
+    write(fd, command_buf, sizeof(float)*2);
+
+    // period
+    sleep(4); // Sleep for 1 second
 }

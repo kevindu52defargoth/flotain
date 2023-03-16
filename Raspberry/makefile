@@ -3,7 +3,7 @@ CFLAGS  = -Wall
 CFLAGS += -std=c99
 CFLAGS += -lpthread
 CFLAGS += -I include
-LDFLAGS += -L .
+LDFLAGS += -L ../libinet
 ifndef _DEBUG_
 LDFLAGS += -l inet
 endif
@@ -12,7 +12,7 @@ CFLAGS += -D_DEBUG_
 LDFLAGS += -l inetdebug
 endif
 
-OBJS = main.o driver_robot.o carte.o
+OBJS = main.o driver_robot.o carte.o serial_client.o
 
 all: main
 
