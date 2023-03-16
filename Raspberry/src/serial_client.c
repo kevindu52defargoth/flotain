@@ -18,7 +18,6 @@ int serial_ouvert()
 {
     int fd;
     struct termios options;
-    char buffer[255];
     
     fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
 
@@ -49,7 +48,7 @@ int serial_ouvert()
 
 
 void send_tensions(float t1, float t2,int fd){
-    
+    char buffer[255];
     char command_buf[10];
 
     // cleanning the buffers
@@ -82,5 +81,4 @@ void send_tensions(float t1, float t2,int fd){
 
 
     close(fd);
-    return 0;
 }
