@@ -80,15 +80,8 @@ make
 ```
 
 Cela créera des fichiers objets `.o` dans le dossier `bin`, et l'exécutable `./main` lié statiquement.
-On peut ensuite créer l'archive contenant tout ce dont on besoin les robots, puis leur envoyer :
-```bash
-make tgz
-export ROBOTS = robot1.local robot2.local
-for i in robots
-do
-  scp flotain.tar.gz pi@$i:flotain.tar.gz
-done
-```
+
+Note : Il faut le faire sur le Raspberry, ou cross-compiler pour ARM.
 
 ### Arduino
 
