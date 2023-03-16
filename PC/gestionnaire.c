@@ -50,6 +50,8 @@ void * thread_prendre_ressource(struct param * p){
   // TODO : envoyer OK_RESSOURCE
   envoyer(&socket, "OK RESSOURCE\n", NULL);
 
+  free(p);
+
   return 0;
 }
 
@@ -72,11 +74,10 @@ void * thread_liberer_ressource(struct param * p){
   int ressource;
   socket_t socket;
 
-
-  printf("On libere la ressource %d\n", ressource);
-
   ressource = p->ressource;
   socket = p->socket;
+
+  printf("On libere la ressource %d\n", ressource);
 
   // TODO : envoyer Ack
   envoyer(&socket, "Ack\n", NULL);
@@ -85,6 +86,7 @@ void * thread_liberer_ressource(struct param * p){
 
   // TODO : envoyer OK_RESSOURCE
   envoyer(&socket, "OK RESSOURCE\n", NULL);
+  free(p);
 
   return 0;
 }
