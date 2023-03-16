@@ -7,9 +7,10 @@
 #include <semaphore.h>
 #include <stdlib.h>
 #include "gestionnaire.h"
+#include "network.h"
 
 #define IP_ANY		"0.0.0.0"
-#define PORT_SRV	9092
+
 
 #define CHECK(sts, msg) if ((sts)==-1) {perror(msg); exit(-1);}
 #define CHECK_T(status, msg) if (0 != (status)) { fprintf(stderr, "pthread erreur : %s\n", msg); exit(-1);}
@@ -28,19 +29,38 @@ void* traiterClt(void* arg) {
   socket_t  sockDial = *(socket_t *)arg;
   buffer_t buff;
 
-  envoyer(&sockDial, "Bienvenue\n", serialize);
+//   envoyer(&sockDial, "Bienvenue\n", serialize);
   int i = 1;
   while (i) {
     recevoir(&sockDial, buff, deserialize);
-    printf("recu %ld char : %s\n", strlen(buff), buff);
-    if (buff[0] == 'T')
-      prendre_ressource(atoi(buff+1), sockDial);
-    else if (buff[0] == 'L')
-      liberer_ressource(atoi(buff+1), sockDial);
-    else
-      i = 0;
+    printf("recue %ld char : %s\n", strlen(buff), buff);
+    int head = (int)(buff[0]);
+    printf("%d\n", head);
+
+    // ok_ready 
+    if (buff[0]=='0'){
+      
+      printf("ça marche\n");
+    }
+    switch (buff[0])
+    {
+    case READY:
+      printf("ready\n");
+      break;
+
+   
+    default:
+      break;
+    }
+
+    // if (buff[0] == 'T')
+    //   prendre_ressource(atoi(buff+1), sockDial);
+    // else if (buff[0] == 'L')
+    //   liberer_ressource(atoi(buff+1), sockDial);
+    // else
+    i = 0;
   }
-  envoyer(&sockDial, "A+", NULL);
+  // envoyer(&sockDial, "A+", NULL);
 
   CHECK(close(sockDial.fd),"-- PB close() --");
 
@@ -53,7 +73,7 @@ int main(){
   buffer_t buff;
   char * msg = malloc(100*sizeof(char));
 
-  init_gestionnaire();
+//   init_gestionnaire();
 
   sockEcoute = creerSocketEcoute(IP_ANY, PORT_SRV);
   printf("début srv\n");
