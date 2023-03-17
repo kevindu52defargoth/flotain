@@ -66,10 +66,6 @@ On limite le trajet des robots à des routes prédéterminées, ce qui permet de
 
 `Arduino` contient les codes à téléversé sur les arduinos des robots afin de contrôler les moteurs.
 
-### Raspberry
-
-### PC
-
 ## Get started
 
 ### Raspberry
@@ -96,4 +92,6 @@ arduino-cli compile --fqbn arduino:avr:mega Flotain_moteur/
 arduino-cli upload -p /dev/ttyUSB0  --fqbn arduino:avr:mega Flotain_moteur/
 ```
 
+## Commande
 
+Le dossier `Commande` contient des codes pour contrôler le robot. Les détails ont été données à la soutenance. Le code n'est aps inclus dans `Raspberry` car il n'est pas encore utilisable.
