@@ -38,17 +38,32 @@ void* traiterClt(void* arg) {
     printf("%d\n", head);
 
     // ok_ready 
-    if (buff[0]=='0'){
+    if (buff[0]=='1'){
       
       printf("ça marche\n");
+
     }
     switch (buff[0])
     {
     case READY:
-      printf("ready\n");
-      break;
+      SEND_OBJ("1.1.2");
 
+      break;
+    case DEMANDE_RES:
+      SEND_RES("1");
+    
+      break;
+    case FREE_RES:
    
+      FREE_RES("1");
+
+      break;
+    case OBJ_OK:
+      STAT_OBJ_OK("1.1.2");
+      break;
+    case OBJ_DEPOT:
+      STAT_OBJ_DEPOT("1.1.2");
+      break;
     default:
       break;
     }
@@ -73,8 +88,8 @@ int main(){
   buffer_t buff;
   char * msg = malloc(100*sizeof(char));
 
-//   init_gestionnaire();
-
+  init_gestionnaire();
+  
   sockEcoute = creerSocketEcoute(IP_ANY, PORT_SRV);
   printf("début srv\n");
   while(1)	// daemon !

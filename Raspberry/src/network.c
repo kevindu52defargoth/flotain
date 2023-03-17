@@ -29,9 +29,13 @@ int main()
     message_t head = DEMANDE_RES;
     char *info = "1.2.2";
     char *msg2 = preparer_message(head, info);
-
+    // char *cu = "T";
+    
     printf("Merged string: %s\n", msg2);
     sockAppel = connecterClt2Srv(IP_SRV, PORT_SRV);
-    envoyer(&sockAppel, msg2, NULL);
+    // envoyer(&sockAppel, cu, NULL);
+    // SEND_READY();
+    // SEND_DEMANDE_RES("1");
+    SEND_FREE_RES("1");
     free(msg2); // free the dynamically allocated memory
 }

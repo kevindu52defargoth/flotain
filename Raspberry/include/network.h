@@ -1,12 +1,11 @@
 /* definer les vaiables pour la communication avec le gestionnaire */
 
-
 typedef enum message{
-  READY='0', 
-  DEMANDE_RES='1', 
-  FREE_RES='2', 
-  OBJ_OK='3',
-  OBJ_DEPOT='4'
+  READY, 
+  DEMANDE_RES, 
+  FREE_RES, 
+  OBJ_OK,
+  OBJ_DEPOT
 } message_t;
 
 // #define MAXCAR  80
@@ -15,7 +14,7 @@ typedef enum message{
 // #define REMOTEPORT 3000
 
 #define IP_SRV	"0.0.0.0"
-#define PORT_SRV	8002
+#define PORT_SRV	8005
 
 
 
