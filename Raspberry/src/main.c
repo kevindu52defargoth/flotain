@@ -37,29 +37,6 @@ int main(int argc, char **argv){
   int lenChemin1, lenChemin2, lenChemin3;
   struct coordones coordones_courantes = coord_repos;
 
-  // ouverture d'une connection avec le serveur du gestionnaire
-
- //  int sd1; //descripteur de socket de dialogue
- //  struct sockaddr_in addrServ, addrCli;
- //  char buff[MAXCAR+1];
- //  int erreur, nbcar;
- //  int adrlg=sizeof(struct sockaddr_in);
- //
- //  // Creation de la socket
- //  sd1=socket(AF_INET, SOCK_STREAM, 0);
- //
- //  CHECKERROR(sd1,-1, "Creation fail !!!\n");
- //
- //  //Etape2 - Adressage du destinataire
- //
- //  addrServ.sin_family=AF_INET;
- //  addrServ.sin_port = htons(REMOTEPORT);
- //  addrServ.sin_addr.s_addr = inet_addr(REMOTEIP);
- //
- // // Etape 3 - demande d'ouverture de connexion sd1
- //  CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
- //                sizeof(struct sockaddr_in)), "Probleme connection\n");
-
   while(1){
     // on envoie au gestionnaire que l'on attend un ordre
     state = AWAITING_ORDER;
