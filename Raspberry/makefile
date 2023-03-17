@@ -12,7 +12,7 @@ CFLAGS += -D_DEBUG_
 LDFLAGS += -l inetdebug
 endif
 
-OBJS = main.o driver_robot.o carte.o serial_client.o
+OBJS = main.o carte.o serial_client.o
 
 all: main
 

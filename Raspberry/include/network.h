@@ -1,6 +1,5 @@
 /* definer les vaiables pour la communication avec le gestionnaire */
 
-
 typedef enum message{
   READY, 
   DEMANDE_RES, 
@@ -15,7 +14,7 @@ typedef enum message{
 // #define REMOTEPORT 3000
 
 #define IP_SRV	"0.0.0.0"
-#define PORT_SRV	8002
+#define PORT_SRV	8005
 
 
 
@@ -23,7 +22,7 @@ typedef enum message{
 
 
 #define SEND_READY() printf("function send ready"); char msg[10];sprintf(msg, "%d", READY);envoyer(&sockAppel, msg, NULL);
-#define SEND_DEMANDE_RES(id_r) printf("function send res demand"); char msg[10]; msg = preparer_message(DEMANDE_RES,id_r); envoyer(&sockAppel, msg, NULL);
+#define SEND_DEMANDE_RES(id_r) printf("function send res demand"); char *msg = preparer_message(DEMANDE_RES,id_r); envoyer(&sockAppel, msg, NULL);
 #define SEND_FREE_RES(id_r) printf("function send free res"); char *msg = preparer_message(FREE_RES,id_r); envoyer(&sockAppel, msg, NULL);
 #define SEND_OBJ_OK(id_obj) printf("function send objet ok"); char *msg = preparer_message(OBJ_OK,id_obj); envoyer(&sockAppel, msg, NULL);
 #define SEND_OBJ_DEPOT() printf("function send objet depot"); char *msg = preparer_message(OBJ_DEPOT,id_obj); envoyer(&sockAppel, msg, NULL);

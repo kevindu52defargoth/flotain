@@ -1,13 +1,11 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "pthread.h"
-#include <driver_robot.h>
 #include <commons.h>
 #include <main.h>
 #include <carte.h>
 #include <unistd.h>
-#include <network.h>
-#include <serial_client.h>
+#include<network.h>
 
 #define RANDOM(min, max) (min) + rand() % ((max) - (min) + 1)
 
@@ -34,10 +32,6 @@ pthread_mutex_t screen;
 int main(int argc, char **argv){
   pthread_mutex_unlock(&screen);
   PRINT("hello world");
-
-  //test communication série
-  int fd = serial_ouvert();
-  send_tensions(5.0, 3.0,fd);
 
   int * chemin1, * chemin2, * chemin3;
   int lenChemin1, lenChemin2, lenChemin3;
@@ -66,10 +60,6 @@ int main(int argc, char **argv){
  //  CHECK(connect(sd1, (const struct sockaddr *)&addrServ,
  //                sizeof(struct sockaddr_in)), "Probleme connection\n");
 
-  printf("OK connect sd1\n");
-
-
-  
   while(1){
     // on envoie au gestionnaire que l'on attend un ordre
     state = AWAITING_ORDER;
