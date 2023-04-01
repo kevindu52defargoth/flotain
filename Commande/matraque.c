@@ -1,17 +1,7 @@
+//Fonctions de calcul matriciel pour des matrices 2x2
+
 #include <stdio.h>
 #include "matraque.h"
-
-/*
-int main(){
-	float xhat[2] = {0.2, 0.3};
-	float u[2] = {0.3, 0.4};
-	float P[2][2] = {{0, 0}, {0, 0}};
-	float z[2] = {0.21, 0.31};
-	
-	fusion(xhat, P, u, z);	
-	printf("[%f, %f]\n", xhat[0], xhat[1]);
-}
-*/
 
 void mattr(float matrix[2][2], float transposed[2][2]){
     transposed[0][0] = matrix[0][0];
