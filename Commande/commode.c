@@ -63,12 +63,12 @@ int main() {
 	const char * ttyFileName;
 	ttyFileName = DEFAULT_TTY_FILENAME;
 	hedge->ttyFileName=ttyFileName;
-    hedge->verbose=true; // show errors and warnings
-    hedge->anyInputPacketCallback= semCallback;
-    startMarvelmindHedge (hedge);
+    	hedge->verbose=true; // show errors and warnings
+    	hedge->anyInputPacketCallback= semCallback;
+    	startMarvelmindHedge (hedge);
 	
 	signal (SIGINT, CtrlHandler);
-    signal (SIGQUIT, CtrlHandler);
+    	signal (SIGQUIT, CtrlHandler);
 	
 	sem = sem_open(DATA_INPUT_SEMAPHORE, O_CREAT, 0777, 0);
 	
@@ -78,55 +78,32 @@ int main() {
 	
 	//Commande
 	
-	int i = 0;
 	
 	float *data;
+	// Pour la fusion de données qui ne marche pas 
 	//float xhat[2] = {0, 0};
 	//float u[2] = {0.5, 0.5};
 	//float P[2][2] = {{0, 0}, {0, 0}};
 	float z[2] = {0, 0};
+	float ztemp[2] = {0, 0};
 
 	float angle = 0;
-	float deltaT = 0.17;
+	float deltaT = 0.12;
 	
 	printFusionIMUFromMarvelmindHedge(hedge, true);
 	
 	while (!terminateProgram){
 
-		clock_t start_time = clock();
 
-		
-		//printf("[%f, %f]\n", data[0], data[1]);
-		
+		data = FusionIMU_data(hedge, false);
 		//fusion(xhat, P, u, z);	
+		z[0] = data[0];
+		z[1] = data[1];
+		ztemp[0] = z[0];
+		ztemp[1] = z[1];
+		commode(0.5, 0.7, z, true); // Se rendre au point de coordonnées (0.5,0.5) dans le référentiel du marvelMind
 
-		if (i%5 == 0){
-			data = FusionIMU_data(hedge, false);
-
-			z[0] = data[0];
-			z[1] = data[1];
-			commode(0.5, 0.5, z, true);
-			i = 1;
-		} else {
-			float vect0[] = {0, 10};
-			float vect1[] = {oldx[0]*10-z[0]*10, oldx[1]*10-z[1]*10};
-			if (vect1[0] == vect1[1] == 0){
-				vect1[0] = 0.01;
-				vect1[1] = 0.01;
-			}
-			angle = angle + err_angle;
-
-			z[0] = data[0] + deltaT*0.0031*(u-2.7/1.5*u_angle*sin(3.14/180*angle));
-			z[1] = data[0] + deltaT*0.0031*(u+2.7/1.5*u_angle*cos(3.14/180*angle));
-			commode(0.5, 0.5, z, true);
-			i++;
-		}
-		printf("Odo/Marv = [%f, %f, %f] Marv = [%f, %f]\n", z[0], z[1], angle, data[0], data[1]);
-
-		clock_t end_time = clock();
-		double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-		//printf("Temps pris: %lf second\n", elapsed_time);
+		printf("[%f, %f]\n", data[0], data[1]);
 	}
 	
 	
@@ -145,21 +122,21 @@ float constrain(float U, float maxi, float mini) {
 }
 
 
-float pid_dist(float last_U, float old_err_dist, float new_err_dist) {
+float pid_dist(float last_U, float old_err_dist, float new_err_dist) { //Pid de contrôle de la distance à la cible
 	float newU;
-	newU = last_U + Kp*10* (new_err_dist - old_err_dist) + Ki*50*Tech*old_err_dist;
+	newU = last_U + Kp*10* (new_err_dist - old_err_dist) + Ki*100*Tech*old_err_dist;
 	newU = constrain(newU, Umax, -Umax);
 	return newU;
 }
 
-float pid_angle(float last_U, float old_err_dist, float new_err_dist) {
+float pid_angle(float last_U, float old_err_dist, float new_err_dist) { //Pid de contrôle de l'angle pour aller à la cible
 	float newU;
-	newU = last_U + Kp/5* (new_err_dist - old_err_dist) + Ki/3*Tech*old_err_dist;
+	newU = last_U + Kp/4* (new_err_dist - old_err_dist) + Ki/8*Tech*old_err_dist;
 	newU = constrain(newU, Umax, -Umax);
 	return newU;
 }
 
-float get_angle(float vect1[2], float vect2[2]){
+float get_angle(float vect1[2], float vect2[2]){ //Fonction permettant d'estimer l'angle du robot en fonction de l'angle entre le dernier point et celui actuel
 	float angle;
 	float sign;
 	angle = 180/3.14*acos((vect1[0]*vect2[0] + vect1[1]*vect2[1])/(sqrtf(vect1[0]*vect1[0] + vect1[1]*vect1[1])*sqrtf(vect2[0]*vect2[0] + vect2[1]*vect2[1])));
@@ -172,12 +149,12 @@ float get_angle(float vect1[2], float vect2[2]){
 
 
 
-void commode(float x, float y, float * data, bool turn) {
+void commode(float x, float y, float * data, bool turn) { //Fonction de commande du robot
 	float r;
 	float new_err_angle;
 	
 	r = sqrtf((x-data[0])*(x-data[0]) + (y-data[1])*(y-data[1]));
-	if (r < 0.2) {
+	if (r < 0.15) { // Si arrivé à la case, bloque le robot
 		//send semaph
 		printf("Arrivé à la case\n");
 		send_tensions(0, 0, fd);
@@ -186,40 +163,30 @@ void commode(float x, float y, float * data, bool turn) {
 		u = pid_dist(u, err, r);
 		err = r;
 
-		if (turn) {
+		if (turn) { // variable turn pour bloquer ou non le robot de tourner
 			float r2;
 			r2 = sqrtf((oldx[0]-data[0])*(oldx[0]-data[0]) + (oldx[1]-data[1])*(oldx[1]-data[1]));
 
-			if (r2 < 0.1) {
+			if (r2 < 0.05) {
 				new_err_angle = 0;
 				u_angle = u_angle*0.3;
 			} else {
 				float vect2[] = {data[0]*10-oldx[0]*10, data[1]*10-oldx[1]*10};
 				float vect3[] = {x*10-data[0]*10, y*10-data[1]*10};
-				new_err_angle = get_angle(vect3, vect2);
+				new_err_angle = get_angle(vect3, vect2); // On calcule l'angle avec les vect2 et vect3
 				u_angle = pid_angle(u_angle, err_angle, new_err_angle);
+				
 			}
 
 
 			err_angle = new_err_angle;
 
-
-
-			//printf("angle = %f\n", new_err_angle);
-
-
-
 			oldx[0] = data[0];
 			oldx[1] = data[1];
-			//printf("tension1 = %f\n", u_angle);
 
 
 		}
-		//printf("tensionGauche = %f\n", u-u_angle);
-		//send u1 = u + u_angle
-		//printf("tensionDroite = %f\n", +u-u_angle);
-		//send u2 = u - u_angle
-		//send_tensions(u+u_angle, u-u_angle, fd);
-		send_tensions(u-u_angle, -u-u_angle, fd);
+
+		send_tensions(u-u_angle, -u-u_angle, fd); // On avance et on tourne en même temps
 	}
 }
